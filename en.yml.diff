@@ -1,0 +1,52 @@
+--- /tmp/archivesspace/common/locales/en.yml	2017-03-22 18:16:30.326048803 -0400
++++ en.yml	2017-03-22 18:12:41.766201246 -0400
+@@ -12,14 +12,11 @@
+     boolean_1: Boolean 1
+     boolean_2: Boolean 2
+     boolean_3: Boolean 3
+-    integer_1: Integer 1
+     integer_2: Integer 2
+     integer_3: Integer 3
+     real_1: Real 1
+     real_2: Real 2
+     real_3: Real 3
+-    string_1: String 1
+-    string_2: String 2
+     string_3: String 3
+     string_4: String 4
+     text_1: Text 1
+@@ -27,18 +24,21 @@
+     text_3: Text 3
+     text_4: Text 4
+     text_5: Text 5
+-    date_1: Date 1
+     date_1_inline_help: e.g. YYYY-MM-DD
+     date_2: Date 2
+     date_2_inline_help: e.g. YYYY-MM-DD
+     date_3: Date 3
+     date_3_inline_help: e.g. YYYY-MM-DD
+-    enum_1: Controlled Value 1
+     enum_2: Controlled Value 2
+     enum_3: Controlled Value 3
+     enum_4: Controlled Value 4
+-    _singular: User Defined
+-    _plural: User Defined
++    _singular: Administrative Information
++    _plural: Administrative Information
++    integer_1: Order Number
++    string_1: Cost
++    string_2: Fund
++    date_1: Date Received
++    enum_1: Research Topic
+ 
+   content_items:
+     content: Content
+@@ -71,7 +71,7 @@
+     classification_tooltip: |
+         <p>Used for linking the materials described to a Classification or a Classification Term (e.g. a record group system) managed within the application.</p>
+     user_defined_tooltip: |
+-        <p>User defined fields for recording additional information not captured in other sections of the application.</p>
++        <p>Customized fields for Clements Library.</p>
+ 
+   digital_object: &digital_object_attributes
+     <<: *section_tooltips

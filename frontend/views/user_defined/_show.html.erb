@@ -1,0 +1,57 @@
+<%
+  section_id = "user_defined" if section_id.blank?
+
+  def read_only_view_user_defined_no_bool(hash, opts = {})
+    jsonmodel_type = hash["jsonmodel_type"]
+    schema = JSONModel(jsonmodel_type).schema
+    prefix = opts[:plugin] ? 'plugins.' : ''
+    html = "<div class='form-horizontal'>"
+
+    show_properties = ["enum_1", "integer_1", "string_1", "string_2", "date_1"]
+
+    show_properties.each do |property|
+      if !hash.has_key?(property)
+        next
+      end
+      value = hash[property]
+
+      if schema and schema["properties"].has_key?(property)
+        if (schema["properties"][property].has_key?('dynamic_enum'))
+          value = I18n.t({:enumeration => schema["properties"][property]["dynamic_enum"], :value => value}, :default => value)
+        elsif schema["properties"][property].has_key?("enum")
+          value = I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}_#{value}", :default => value)
+        elsif schema["properties"][property]["type"] === "boolean"
+          value = value === true ? "True" : "False"
+        elsif schema["properties"][property]["type"] === "date"
+          value = value.blank? ? "" : Date.strptime(value, "%Y-%m-%d")
+        elsif schema["properties"][property]["type"] === "array"
+          # this view doesn't support arrays
+          next
+        elsif value.kind_of? Hash
+          # can't display an object either
+          next
+        end
+      end
+
+      html << "<div class='form-group'>"
+      html << "<div class='control-label col-sm-2'>#{I18n.t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='label-only col-sm-8'>#{value}</div>"
+      html << "</div>"
+
+    end
+
+    html << "</div>"
+
+    html.html_safe
+  end
+%>
+
+<section id="<%= section_id %>" class="subrecord-form-dummy">
+  <h3><%= I18n.t("user_defined._singular") %></h3>
+
+  <div class="subrecord-form-container">
+    <div class="subrecord-form-fields">
+      <%= read_only_view_user_defined_no_bool(user_defined) %>
+    </div>
+  </div>
+</section>
