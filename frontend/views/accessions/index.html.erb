@@ -1,0 +1,53 @@
+<%= setup_context(:title => I18n.t("accession._plural")) %>
+
+<%
+   @show_multiselect_column = user_can?("delete_archival_record")
+
+   ## Start of Modifications ##
+   model = "accession"
+   add_browse_columns(model)
+   # Add content_description column at end
+   # This is cribbed w/ minor changes from original add_browse_columns() method
+   prop = 'content_description'
+   enum_locale_key = "#{model}_#{prop}"
+   add_column(I18n.t("#{model}.#{prop}"),
+              proc { |record|
+                v = record[prop] || ASUtils.json_parse(record['json'])[prop]
+                I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s)
+	      }, :sortable => false)
+   ## End of Modifications ##
+%>
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="sidebar">
+      <%= render_aspace_partial :partial => "search/filter" %>
+    </div>
+  </div>
+  <div class="col-md-9">
+    <% if user_can?('update_accession_record') %>
+      <div class="record-toolbar">
+        <div class="btn-group pull-right">
+          <% if user_can?('manage_repository') %>
+              <%= link_to I18n.t("actions.edit_default_values"), {:controller => :accessions, :action => :defaults}, :class => "btn btn-sm btn-default" %>
+          <% end %>
+          <%= link_to I18n.t("actions.export_csv"), request.parameters.merge({ :format => :csv}), id: "searchExport",  class:  "btn btn-sm btn-info" %> 
+          <%= link_to I18n.t("accession._frontend.action.create"), {:controller => :accessions, :action => :new}, :class => "btn btn-sm btn-default" %>
+          <% if user_can?("delete_archival_record") %>
+            <%= button_delete_multiple_action(:archival_records) %>
+          <% end %>
+        </div>
+        <br style="clear:both" />
+      </div>
+    <% end %>
+    <div class="record-pane">
+      <%= link_to_help :topic => "search" %>
+
+      <h2><%= I18n.t("accession._plural") %></h2>
+
+      <%= render_aspace_partial :partial => "shared/flash_messages" %>
+
+      <%= render_aspace_partial :partial => "search/listing" %>
+    </div>
+  </div>
+</div>
