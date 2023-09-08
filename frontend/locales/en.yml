@@ -1,15 +1,5 @@
 en:
   user_defined:
-    _singular: Administrative Information
-    _plural: User Defined
-    integer_1: Order Number
-    string_1: Cost
-    string_2: Fund
-    date_1: Date Received
-    enum_1: Research Topic
     _frontend:
       action:
         add: Add Administrative Information
-  section_tooltips:
-    user_defined_tooltip: |
-      <p>Customized fields for Clements Library</p>
