@@ -10,13 +10,7 @@
   # This is cribbed w/ minor changes from original add_pref_columns() method
   prop = 'content_description'
   enum_locale_key = "#{model}_#{prop}"
-  add_column(I18n.t("search.#{model}.#{prop}"), { locale_key: enum_locale_key, model: model })
-  # add_column(I18n.t("#{model}.#{prop}"),
-  #           proc { |record|
-  #             v = record[prop] || ASUtils.json_parse(record['json'])[prop]
-  #             I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s)
-  #     }, :sortable => false)
-  ## End of Modifications ##
+  add_column(I18n.t("#{model}.#{prop}"), { locale_key: enum_locale_key, model: model })
 %>
 
 <div class="row">
