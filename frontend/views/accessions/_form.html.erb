@@ -7,14 +7,30 @@
       <%= link_to_help :topic => "accession_basic_information" %>
     </h3>
     <fieldset>
-       <%= form.label_and_textarea "title" %>
+      <%= render_plugin_partials("top_of_basic_information_accession",
+                            :form => form,
+                            :record => @accession) %>
+       <%= form.label_and_textarea "title", :field_opts => {
+         :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
+       } %>
+
        <%= form.label_and_fourpartid %>
+
+       <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @accession} if AppConfig[:use_human_readable_urls] %>
+
        <%= form.label_and_date "accession_date" %>
        <%= form.label_and_textarea "provenance" %>
        <%= form.label_and_select "acquisition_type", form.possible_options_for("acquisition_type", true) %>
        <%= form.label_and_textarea "content_description" %>
        <%= form.label_and_textarea "disposition" %>
-       <%= form.label_and_textarea "general_note" %>       
+       <%= form.label_and_textarea "general_note" %>
+       <%= form.label_and_select("language", form.possible_options_for("language", true)) %>
+       <%= form.label_and_select("script", form.possible_options_for("script", true)) %>
+
+       <%= render_plugin_partials("basic_information_accession",
+                                  :form => form,
+                                  :record => @accession) %>
+
        <%#= form.label_and_textarea "condition_description" %>
        <%#= form.label_and_textarea "inventory" %>
        <%#= form.label_and_textarea "retention_rule" %>  
@@ -31,13 +47,16 @@
 
 <% form.emit_template("accession") %>
 
+<%# Moved up %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "user_defined", :cardinality => :zero_to_one} %>
 
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "accession_linked_agent"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_resources", :template => "accession_related_resource"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "component_links", :template => "accession_component_links"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_accessions", :template_erb => "interrelated_accessions/template", :template => "interrelated_accessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
 
