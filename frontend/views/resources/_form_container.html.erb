@@ -1,6 +1,7 @@
 <%= link_to_help :topic => "resource" %>
 
 <h2>
+   <%# resource._singular added to header %>
    <%= @form_title ? @form_title : @resource.title.blank? ? "#{I18n.t("actions.new_prefix")} #{I18n.t("resource._singular")}" : clean_mixed_content( @resource.title)  %>  <span class="label label-info"><%= I18n.t("resource._singular") %></span>
 </h2>
 
@@ -19,18 +20,33 @@
     </h3>
 
     <fieldset>
-      <%= form.label_and_textarea "title" %>
+      <%= render_plugin_partials("top_of_basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
+
+      <%= form.label_and_textarea "title", :field_opts => {
+        :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
+      } %>
+
       <%= form.label_and_fourpartid %>
+
+      <%= render_aspace_partial :partial => "shared/slug", :locals => {:form => form, :record_type => @resource} if AppConfig[:use_human_readable_urls] %>
+
+      <%= form.label_and_textfield "external_ark_url" if AppConfig[:arks_enabled] && AppConfig[:arks_allow_external_arks] %>
       <%= form.label_and_select "level", form.possible_options_for("level", true) %>
       <%= form.label_and_textfield "other_level", :required => true %>
       <%= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
-      <%= form.label_and_select "language", form.possible_options_for("language", true) %>
       <%#= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
       <%#= form.label_and_boolean "restrictions", {}, form.default_for("restrictions") %>
       <%= form.label_and_textarea "repository_processing_note" %>
+
+      <%= render_plugin_partials("basic_information_resource",
+                                 :form => form,
+                                 :record => @resource) %>
     </fieldset>
   </section>
 
+  <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "lang_materials", :custom_action_template => "lang_materials/subrecord_form_action"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "dates", :template => "archival_record_date"} %>
   <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "extents"} %>
 
@@ -45,13 +61,17 @@
           <%= form.label_and_textfield "ead_id" %>
           <%= form.label_and_textfield "ead_location" %>
           <hr/>
-          <%= form.label_and_textarea "finding_aid_title" %>
-          <%= form.label_and_textarea "finding_aid_subtitle" %>
+
+          <%= form.label_and_textarea "finding_aid_title", :field_opts => {:class => "mixed-content"} %>
+          <%= form.label_and_textarea "finding_aid_subtitle", :field_opts => {:class => "mixed-content"} %>
+
           <%= form.label_and_textarea "finding_aid_filing_title" %>
           <%= form.label_and_textfield "finding_aid_date" %>
           <%= form.label_and_textarea "finding_aid_author" %>
           <%= form.label_and_select "finding_aid_description_rules", form.possible_options_for("finding_aid_description_rules", true) %>
-          <%= form.label_and_textfield "finding_aid_language" %>
+          <%= form.label_and_select("finding_aid_language", form.possible_options_for("finding_aid_language", true)) %>
+          <%= form.label_and_select("finding_aid_script", form.possible_options_for("finding_aid_script", true)) %>
+          <%= form.label_and_textarea "finding_aid_language_note" %>
           <%= form.label_and_textarea "finding_aid_sponsor" %>
           <%= form.label_and_textarea "finding_aid_edition_statement" %>
           <%= form.label_and_textarea "finding_aid_series_statement" %>
@@ -71,8 +91,7 @@
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "related_accessions", :template => "resource_related_accessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "linked_agents", :template => "resource_linked_agent"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "subjects", :template => "subrecord_subject"} %>
-<%# render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "notes", :template => "note_form_selector", :section_id => "notes"} %>
-<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form} %>
+<%= render_aspace_partial :partial => "notes/form", :locals => {:form => form, :section_id => 'resource_notes_'} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
