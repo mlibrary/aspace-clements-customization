@@ -31,12 +31,12 @@
                                   :form => form,
                                   :record => @accession) %>
 
+       <%#= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
        <%#= form.label_and_textarea "condition_description" %>
        <%#= form.label_and_textarea "inventory" %>
        <%#= form.label_and_textarea "retention_rule" %>  
        <%#= form.label_and_select "resource_type", form.possible_options_for("resource_type", true) %>
        <%#= form.label_and_boolean "restrictions_apply", {}, form.default_for("restrictions_apply") %>
-       <%#= form.label_and_boolean "publish", {}, user_prefs["publish"] %>
        <%#= form.label_and_boolean "access_restrictions", {}, form.default_for("access_restrictions") %>
        <%#= form.label_and_textarea "access_restrictions_note" %> 
        <%#= form.label_and_boolean "use_restrictions", {}, form.default_for("use_restrictions") %>
@@ -62,6 +62,7 @@
 
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "external_documents"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "rights_statements"} %>
+<%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "metadata_rights_declarations"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "instances", :custom_action_template => "instances/subrecord_form_action"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "deaccessions"} %>
 <%= render_aspace_partial :partial => "shared/subrecord_form", :locals => {:form => form, :name => "collection_management", :cardinality => :zero_to_one} %>

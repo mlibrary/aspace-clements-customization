@@ -1,5 +1,5 @@
 --- en.standard.yml	2023-09-08 15:26:32
-+++ en.clements.yml	2023-09-08 15:34:23
++++ en.clements.yml	2023-09-11 09:44:49
 @@ -12,14 +12,11 @@
      boolean_1: Boolean 1
      boolean_2: Boolean 2
@@ -50,3 +50,11 @@
  
    digital_object: &digital_object_attributes
      <<: [*section_tooltips, *slug_attributes]
+@@ -2490,6 +2490,7 @@
+     is_required_if_status_is_previous: is required if 'Status' is 'Previous'
+     location_profile_name_not_unique: Location Profile name must be unique
+     must_be_a_positive_integer: Must be a positive integer
++    must_be_an_integer: Must be an integer
+     must_be_unique_to_its_level_in_the_tree: This value must be unique for this level of the hierarchy
+     short_name_already_in_use: The repository short name must be unique within this ArchivesSpace
+     custom_report_template_name_not_unique: The custom report template's name must be unique.
