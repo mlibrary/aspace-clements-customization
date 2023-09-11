@@ -8,8 +8,8 @@
     </h3>
     <fieldset>
       <%= render_plugin_partials("top_of_basic_information_accession",
-                            :form => form,
-                            :record => @accession) %>
+                                 :form => form,
+                                 :record => @accession) %>
        <%= form.label_and_textarea "title", :field_opts => {
          :class => "form-control#{AppConfig[:allow_mixed_content_title_fields] ? ' mixed-content' : ''}"
        } %>
