@@ -8,7 +8,7 @@
   # Add content_description column at end
   prop = 'content_description'
   enum_locale_key = "#{model}_#{prop}"
-  add_column(I18n.t("#{model}.#{prop}"), { locale_key: enum_locale_key, model: model })
+  add_column(I18n.t("#{model}.#{prop}"), { locale_key: enum_locale_key, model: model, field: prop })
   add_actions_column if !params[:linker] || params[:linker] === 'false'
   # End of modifications
 %>
