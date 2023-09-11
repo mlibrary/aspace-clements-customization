@@ -1,17 +1,5 @@
 <%= setup_context(:title => I18n.t("accession._plural")) %>
 
-<%
-  ## Start of Modifications
-  model = "accession"
-  add_pref_columns(model)
-  # Add content_description column at end
-  # This is cribbed w/ minor changes from original add_pref_columns() method
-  prop = 'content_description'
-  enum_locale_key = "#{model}_#{prop}"
-  add_column(I18n.t("#{model}.#{prop}"), { locale_key: enum_locale_key, model: model })
-  ## End of Modifications
-%>
-
 <div class="row">
   <div class="col-md-3">
     <div class="sidebar">
