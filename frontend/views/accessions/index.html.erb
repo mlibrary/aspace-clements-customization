@@ -8,8 +8,8 @@
   # Add content_description column at end
   prop = 'content_description'
   enum_locale_key = "#{model}_#{prop}"
-  add_column(I18n.t(
-    "#{model}.#{prop}"),
+  add_column(
+    I18n.t("#{model}.#{prop}"),
     { locale_key: enum_locale_key, model: model, sortable: false },
     proc { |record|
       v = record[prop] || ASUtils.json_parse(record['json'])[prop]

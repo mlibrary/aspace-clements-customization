@@ -58,7 +58,7 @@
 
           <% readonly.emit_template("accession") %>
 
-          <%# Moved up %>
+          <%# Moved up user_defined %>
           <% if @accession.user_defined %>
             <%= render_aspace_partial :partial => "user_defined/show", :locals => { :user_defined => @accession.user_defined, :context => readonly, :section_id => "accession_user_defined_" } %>
           <% end %>
