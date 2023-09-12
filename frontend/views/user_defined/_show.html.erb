@@ -1,6 +1,9 @@
 <%
   section_id = "user_defined" if section_id.blank?
 
+  # render_aspace_partial :partial => "user_defined/template"
+
+  # Custom addition
   def read_only_view_user_defined_no_bool(hash, opts = {})
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
@@ -51,6 +54,12 @@
 
   <div class="subrecord-form-container">
     <div class="subrecord-form-fields">
+
+      <%#= readonly_context(:user_defined, user_defined) do |readonly| %>
+        <%#= readonly.emit_template("user_defined") %>
+      <%#= end %>
+
+      <%# Replaced other content above with this custom version %>
       <%= read_only_view_user_defined_no_bool(user_defined) %>
     </div>
   </div>
