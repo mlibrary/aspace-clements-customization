@@ -4,21 +4,25 @@
 
 <%
   # Start of modifications
-  # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
+  # Customize accession columns only in search results, when creating linked entities
   model = "accession"
-  add_pref_columns(model)
-  # Add content_description column at end
-  prop = 'content_description'
-  enum_locale_key = "#{model}_#{prop}"
-  add_column(
-    I18n.t("#{model}.#{prop}"),
-    { locale_key: enum_locale_key, model: model, sortable: false },
-    proc { |record|
-      v = record[prop] || ASUtils.json_parse(record['json'])[prop]
-      I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s) unless v.nil?
-    }
-  )
-  add_actions_column if !params[:linker] || params[:linker] === 'false'
+  if !@search_data.nil? && @search_data.get_type == model
+    # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
+    add_linker_column if params[:linker] === 'true'
+    add_pref_columns(model)
+    # Add content_description column
+    prop = 'content_description'
+    enum_locale_key = "#{model}_#{prop}"
+    add_column(
+      I18n.t("#{model}.#{prop}"),
+      { locale_key: enum_locale_key, model: model, sortable: false },
+      proc { |record|
+        v = record[prop] || ASUtils.json_parse(record['json'])[prop]
+        I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s) unless v.nil?
+      }
+    )
+    add_actions_column if !params[:linker] || params[:linker] === 'false'
+  end
   # End of modifications
 %>
 
