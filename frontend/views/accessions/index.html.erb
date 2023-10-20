@@ -5,6 +5,7 @@
   # Customize accession browse columns
   # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
   model = "accession"
+  add_multiselect_column if can_delete_search_results?(model) && !(request.path =~ /\/(advanced_)*search/)
   add_pref_columns(model)
   # Add content_description column
   prop = 'content_description'
