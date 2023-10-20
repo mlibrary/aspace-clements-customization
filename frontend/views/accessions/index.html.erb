@@ -4,9 +4,12 @@
   # Start of modifications
   # Customize accession browse columns
   # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
+
+  # Add standard columns minus actions
   model = "accession"
   add_multiselect_column if can_delete_search_results?(model) && !(request.path =~ /\/(advanced_)*search/)
   add_pref_columns(model)
+
   # Add content_description column
   prop = 'content_description'
   enum_locale_key = "#{model}_#{prop}"
@@ -18,7 +21,10 @@
       I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s) unless v.nil?
     }
   )
+
+  # Add the actions column
   add_actions_column
+
   # End of modifications
 %>
 
