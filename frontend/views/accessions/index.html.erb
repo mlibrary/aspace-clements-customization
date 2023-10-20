@@ -7,7 +7,7 @@
 
   # Add standard columns minus actions
   model = "accession"
-  add_multiselect_column if can_delete_search_results?(model) && !(request.path =~ /\/(advanced_)*search/)
+  add_multiselect_column if can_delete_search_results?(model)
   add_pref_columns(model)
 
   # Add content_description column
