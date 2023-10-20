@@ -4,14 +4,20 @@
 
 <%
   # Start of modifications
-  # Customize accession columns only in search results, when creating linked entities
+  # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
+  # Customize columns in search results if accessions might be included
+
   model = "accession"
-  if !@search_data.nil? && @search_data.get_type == model
-    # See https://github.com/archivesspace/archivesspace/blob/master/frontend/app/helpers/search_helper.rb
-    add_linker_column if params[:linker] === 'true'
-    add_pref_columns(model)
+  if !@search_data.nil? & [model, "multi"].include?(@search_data.get_type)
+    # Add standard columns for results
+    add_columns
+
+    # Remove actions column if it was added by add_columns
+    is_not_linker = !params[:linker] || params[:linker] === 'false'
+    @columns.pop if is_not_linker
+
     # Add content_description column
-    prop = 'content_description'
+    prop = "content_description"
     enum_locale_key = "#{model}_#{prop}"
     add_column(
       I18n.t("#{model}.#{prop}"),
@@ -21,8 +27,11 @@
         I18n.t("enumerations.#{enum_locale_key}.#{v}", :default => v.to_s) unless v.nil?
       }
     )
-    add_actions_column if !params[:linker] || params[:linker] === 'false'
+
+    # Add back actions column if necessary
+    add_actions_column if is_not_linker
   end
+
   # End of modifications
 %>
 
