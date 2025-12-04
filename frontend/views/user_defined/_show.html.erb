@@ -8,7 +8,7 @@
     jsonmodel_type = hash["jsonmodel_type"]
     schema = JSONModel(jsonmodel_type).schema
     prefix = opts[:plugin] ? 'plugins.' : ''
-    html = "<div class='form-horizontal'>"
+    html = "<div>"
 
     show_properties = ["enum_1", "integer_1", "string_1", "string_2", "date_1"]
 
@@ -36,8 +36,8 @@
         end
       end
 
-      html << "<div class='form-group'>"
-      html << "<div class='control-label col-sm-2'>#{t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
+      html << "<div class='form-group row'>"
+      html << "<div class='col-form-label col-sm-2'>#{t("#{prefix}#{jsonmodel_type.to_s}.#{property}")}</div>"
       html << "<div class='label-only col-sm-8'>#{value}</div>"
       html << "</div>"
 
